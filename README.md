@@ -1,2 +1,2 @@
-# SIMGA-Selective-Gated-Mamba-with-multi-path-for-recommendation-system
-Selective Gated Mamba with multi-path for recommendation system
+# SIMGA-Selective-Gated-Mamba-for-recommendation-system
+
