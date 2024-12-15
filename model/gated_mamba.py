@@ -140,10 +140,7 @@ class GMambaBlock(nn.Module):
             nn.Dropout(0.2),
         )
         self.conv1d = nn.Conv1d(d_model, d_model, kernel_size=3, padding=1)
-        #self.ac = nn.SiLU()
-        #self.dropout = nn.Dropout(0.2)
-        #self.LayerNorm = nn.LayerNorm(d_model, eps=1e-12)
-        #self.ffn = FeedForward(d_model=d_model, inner_size=d_model * 4, dropout=dropout)
+
 
     def initialize_weights(self):
             with torch.no_grad():
@@ -184,14 +181,7 @@ class GMambaBlock(nn.Module):
         mamba_output_f = mamba_output_f * h2 +  mamba_output_f 
         
         gru_output, _ = self.gru(g1)
-      
-        
-            
-        #combined_states = (
-        #                      self.combining_weights[0] * mamba_output_f + 
-        #                      self.combining_weights[1] * mamba_output+ 
-        #                      self.combining_weights[2] * gru_output
-        #                  )
+    
         combined_states = (
           self.combining_weights[2] * mamba_output +
           self.combining_weights[1] * mamba_output_f+
