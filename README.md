@@ -10,11 +10,11 @@ The hardware and software we used are listed below to facilitate the environment
   - Pytorch: 2.1.1 + cu118
 - Usage
   - Install Causal Conv1d
-    - pip install causal-conv1d==1.1.3.post1
+    - 'pip install causal-conv1d==1.1.3.post1'
   - Install Recbole
-    - pip install recbole==1.2.0
+    - 'pip install recbole==1.2.0'
   - Install Mamba
-    - pip install mamba-ssm==1.1.4
+    - 'pip install mamba-ssm==1.1.4'
 
 ## 
 
