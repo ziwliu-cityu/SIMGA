@@ -1,0 +1,65 @@
+gpu_id: '0'
+log_wandb: False
+
+embedding_size: 64              # (int) The embedding size of items.
+hidden_size: 128                # (int) The number of features in the hidden state. 
+num_layers: 1                   # (int) The number of layers in GRU.
+dropout_prob: 0.3               # (float) The dropout rate.
+loss_type: 'CE'                 # (str) The type of loss function. Range in ['BPR', 'CE'].
+
+
+#dataset: amazon-beauty
+#dataset: Amazon_Video_Games
+#dataset: Amazon_Sports_and_Outdoors
+#dataset: Amazon_Fashion
+#MAX_ITEM_LIST_LENGTH: 50
+#field_separator: "\t"
+#seq_separator: " " 
+#USER_ID_FIELD: user_id 
+#ITEM_ID_FIELD: item_id 
+#RATING_FIELD: rating 
+#TIME_FIELD: timestamp 
+#load_col:
+#    inter: [user_id, item_id, rating, timestamp]
+#NEG_PREFIX: neg_ #指定负采样前缀
+#LABEL_FIELD: label #指定标签
+#ITEM_LIST_LENGTH_FIELD: item_length #指定序列长度域
+#LIST_SUFFIX: _list #指定序列前缀
+#POSITION_FIELD: position_id #指定生成的序列位置id
+#user_inter_num_interval: "[5,inf)" # 5-200 for sports  2-inf for fashion 5-inf for beauty
+#item_inter_num_interval: "[5,inf)"
+
+
+
+
+
+dataset: yelp
+MAX_ITEM_LIST_LENGTH: 50
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: business_id
+TIME_FIELD: date
+RATING_FIELD: stars
+load_col:
+   inter: [user_id, business_id, stars, date]
+
+user_inter_num_interval: "[5,100)"
+item_inter_num_interval: "[5,100)"
+
+# training settings
+epochs: 200
+train_batch_size: 2048 # 1024 for fashion
+learner: adam
+learning_rate: 0.001
+eval_step: 1
+stopping_step: 10
+#训练过程中每个正样本对应的负样本数量
+train_neg_sample_args: ~
+#评估过程中每个正样本对应的负样本数量
+#eval_neg_sample_num: 100
+
+# evalution settings
+metrics: ['Hit', 'NDCG', 'MRR']
+#valid_metric: NDCG@10
+eval_batch_size: 4096
+weight_decay: 0.0
+topk: [10]
