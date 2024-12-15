@@ -139,7 +139,7 @@ class GMambaBlock(nn.Module):
         self.selective_gate = nn.Sequential(
             nn.Dropout(0.2),
         )
-        #self.conv1d = nn.Conv1d(d_model, d_model, kernel_size=3, padding=1)
+        self.conv1d = nn.Conv1d(d_model, d_model, kernel_size=3, padding=1)
         #self.ac = nn.SiLU()
         #self.dropout = nn.Dropout(0.2)
         #self.LayerNorm = nn.LayerNorm(d_model, eps=1e-12)
@@ -154,7 +154,9 @@ class GMambaBlock(nn.Module):
         combining_weights = F.softmax(self.combining_weights.data, dim=0)
         #weights = F.softmax(self.weights.data, dim=0)
         h1 = self.dense1(input_tensor)
-        
+        g1 = self.conv1d(input_tensor.transpose(1, 2))
+        g1 = g1.transpose(1, 2)
+        gru_input = self.conv1d(g1) 
         #h1 = self.ac(h1)
         #h2 = self.conv1d(input_tensor.transpose(1, 2))
         #h2 = self.ac(h2.transpose(1, 2))
@@ -163,7 +165,7 @@ class GMambaBlock(nn.Module):
         # [2048, n, 64] 再进行反转
         flipped_input = input_tensor.clone() #torch.Size([2048, 50, 64])
         
-        flipped_input[:, :95, :] = input_tensor[:, :95, :].flip(dims=[1])
+        flipped_input[:, :45, :] = input_tensor[:, :45, :].flip(dims=[1])
         h2 = flipped_input
         h2 = self.dense2(h2)
         h2 = self.dense2(flipped_input) + flipped_input
@@ -184,8 +186,8 @@ class GMambaBlock(nn.Module):
             
         mamba_output = mamba_output * h1 + mamba_output
         mamba_output_f = mamba_output_f * h2 +  mamba_output_f 
-        #mamba_output_f =self.projection(mamba_output_f)  
-        gru_output, _ = self.gru(input_tensor)
+        
+        gru_output, _ = self.gru(g1)
       
         
             
